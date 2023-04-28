@@ -1,3 +1,4 @@
 configs/*.yaml
-!cmd/*/*.go
+cmd/*/**
+!cmd/*/**/*.go
 .idea/

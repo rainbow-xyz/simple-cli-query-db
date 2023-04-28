@@ -110,7 +110,7 @@ func consumer(db *sql.DB, dbName string) error {
 		createTableStmt = strings.Replace(createTableStmt, "CREATE TABLE ", fmt.Sprintf("CREATE TABLE IF NOT EXISTS `%s`.", dbName), 1)
 
 		re := regexp.MustCompile(`AUTO_INCREMENT=\d+`)
-		createTableStmt = re.ReplaceAllString(createTableStmt, "")
+		createTableStmt = re.ReplaceAllString(createTableStmt, "") + ";"
 		fmt.Println(createTableStmt)
 	}
 
