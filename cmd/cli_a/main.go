@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"fmt"
 	"log"
 	"simple-cli-query-db/pkg/common"
@@ -12,12 +13,12 @@ import (
 	"time"
 )
 
-const (
-	maxConcurrency = 1
-)
-
 func main() {
-	// 使用说明 cd到项目根目录下 执行编译  go build -o cmd/cli_a/cli_a cmd/cli_a/main.go 然后运行
+	// 使用说明 cd到项目根目录下 执行编译  go build -o cmd/cli_a/cli_a cmd/cli_a/main.go 然后运行 通过-c可以指定读取时的并发数
+
+	// 从命令行输入并发数
+	concurrency := flag.Int("c", 1, "concurrency")
+	flag.Parse()
 
 	t1 := time.Now().Unix()
 
@@ -53,9 +54,9 @@ func main() {
 	close(ch)
 
 	var wg sync.WaitGroup
-	wg.Add(maxConcurrency)
+	wg.Add(*concurrency)
 
-	for i := 0; i < maxConcurrency; i++ {
+	for i := 0; i < *concurrency; i++ {
 		go func() {
 			defer wg.Done()
 
